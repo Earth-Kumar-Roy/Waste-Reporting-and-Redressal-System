@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<base target="_top">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Identity Verification | Government of West Bengal</title>
+	<script src="https://cdn.tailwindcss.com"></script>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+
+		body {
+			font-family: 'Inter', sans-serif;
+		}
+
+		.gov-strip {
+			background: linear-gradient(to right, #FF9933 33.33%, #FFFFFF 33.33%, #FFFFFF 66.66%, #128807 66.66%);
+			height: 4px;
+		}
+
+		#otpSection {
+			display: none;
+		}
+
+		.processing {
+			opacity: 0.6;
+			pointer-events: none;
+		}
+	</style>
+</head>
+
+<body class="bg-slate-100 min-h-screen flex flex-col">
+
+	<div class="gov-strip w-full"></div>
+
+	<header class="bg-white border-b border-slate-200 shadow-sm">
+		<div
+			class="max-w-6xl mx-auto px-4 py-1.5 flex justify-between items-center text-[10px] font-bold text-slate-500 uppercase tracking-tight">
+			<div class="flex items-center gap-2">
+				<i class="fas fa-landmark text-slate-400"></i>
+				<span>Personnel Registry | Verification Gateway</span>
+			</div>
+			<button onclick="goToLogin()" class="text-emerald-700 hover:text-emerald-900 flex items-center gap-1 transition-all">
+        <i class="fas fa-home"></i> Return to Main Home
+      </button>
+		</div>
+
+		<div class="max-w-6xl mx-auto px-4 py-5 flex items-center justify-between">
+			<div class="flex items-center gap-5">
+				<div class="bg-slate-800 text-white p-4 rounded-lg shadow-inner">
+					<i class="fas fa-user-check text-3xl"></i>
+				</div>
+				<div>
+					<h1 class="text-xl font-black text-slate-800 leading-none uppercase tracking-tighter">Identity
+						Verification</h1>
+					<p class="text-[10px] text-emerald-700 font-extrabold tracking-[0.2em] uppercase mt-1">Official
+						Personnel Registration</p>
+				</div>
+			</div>
+			<div class="hidden md:flex items-center gap-2 text-slate-300">
+				<i class="fas fa-shield-alt text-4xl opacity-20"></i>
+			</div>
+		</div>
+	</header>
+
+	<main class="flex-1 flex items-center justify-center p-4">
+		<div class="max-w-md w-full bg-white rounded-lg shadow-xl border border-slate-200 overflow-hidden">
+
+			<div class="bg-slate-900 px-8 py-4">
+				<div class="text-[10px] font-black text-emerald-400 uppercase tracking-widest text-center">
+					<i class="fas fa-envelope-open-text mr-2"></i> Two-Factor Authentication Required
+				</div>
+			</div>
+
+			<div class="p-8 space-y-6">
+
+				<div id="initialStep" class="space-y-4">
+					<div class="space-y-2">
+						<label class="text-[10px] font-black text-slate-500 uppercase ml-1">Official Registry Email *</label>
+						<div class="relative group">
+							<span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
+                <i class="fas fa-at text-xs"></i>
+              </span>
+							<input type="email" id="email" placeholder="example@domain.gov.in" required
+                class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-md outline-none focus:ring-1 focus:ring-emerald-600 text-sm font-semibold transition-all">
+            </div>
+						</div>
+
+						<div class="bg-slate-50 p-4 rounded-md border border-slate-200">
+							<label class="flex items-start gap-3 cursor-pointer group">
+              <input type="checkbox" id="agreeCheckbox" class="mt-1 w-4 h-4 text-emerald-800 border-slate-300 rounded focus:ring-emerald-600">
+              <span class="text-[10px] text-slate-500 font-medium leading-relaxed group-hover:text-slate-700 transition">
+                I certify that I am an authorized employee and agree to the 
+                <a href="https://sites.google.com/view/ekr1/waste-reporting-redressal-system/user-agreement" target="_blank" 
+                   class="text-emerald-700 font-black underline decoration-emerald-200">Terms of Service</a>.
+              </span>
+            </label>
+						</div>
+
+						<button id="sendOtpBtn" onclick="sendOtp()" disabled
+            class="w-full py-4 bg-slate-300 text-white text-xs font-black rounded shadow-lg uppercase tracking-[0.2em] transition-all">
+            Send Verification OTP
+          </button>
+					</div>
+
+					<div id="otpSection" class="space-y-5 animate-in fade-in slide-in-from-top-4 duration-500">
+						<div class="text-center py-2">
+							<h4 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em]">Access Code
+								Verification</h4>
+							<p class="text-[9px] text-slate-400 mt-1 italic font-bold">Check your inbox for the 6-digit
+								code</p>
+						</div>
+
+						<div class="relative group">
+							<span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
+              <i class="fas fa-key text-xs"></i>
+            </span>
+							<input type="text" id="otp" placeholder="••••••" maxlength="6"
+              class="w-full pl-10 pr-4 py-4 bg-slate-50 border-2 border-emerald-100 rounded-md outline-none text-center font-mono font-black tracking-[0.6em] focus:border-emerald-600 focus:bg-white text-xl shadow-inner">
+          </div>
+
+							<div class="flex flex-col gap-3">
+								<button id="verifyBtn" onclick="verifyOtp()"
+              class="w-full py-4 bg-emerald-800 hover:bg-emerald-900 text-white font-black rounded shadow-lg transition-all uppercase tracking-[0.2em] text-xs">
+              Verify Credentials
+            </button>
+								<button id="resendBtn" onclick="resendOtp()" disabled
+              class="w-full py-2.5 bg-slate-100 text-slate-400 font-black rounded border border-slate-200 text-[9px] uppercase tracking-widest transition-all">
+              Resend Code
+            </button>
+							</div>
+						</div>
+
+						<div id="status"
+							class="text-center text-[10px] font-black min-h-[20px] text-emerald-700 uppercase tracking-widest">
+						</div>
+
+						<div class="border-t border-slate-100 pt-6">
+							<button id="loginBtn" onclick="goToLogin()"
+            class="w-full py-3 bg-white hover:bg-slate-50 text-slate-600 font-bold rounded border border-slate-200 flex items-center justify-center gap-2 transition-all text-[10px] uppercase tracking-widest">
+            <i class="fas fa-sign-in-alt text-emerald-700"></i> Already Registered? Login here 
+          </button>
+						</div>
+					</div>
+
+					<footer class="bg-slate-100 p-6 text-center border-t border-slate-200">
+						<p class="text-[9px] text-slate-400 font-black uppercase tracking-[0.4em]">© 2026 EKR | Kolkata
+							Municipality </p>
+					</footer>
+				</div>
+	</main>
+
+	<script>
+		(function() {
+      'use strict';
+
+      let resendTimer;
+      const statusEl = document.getElementById("status");
+      const sendOtpBtn = document.getElementById("sendOtpBtn");
+      const agreeCheckbox = document.getElementById("agreeCheckbox");
+
+      function setProcessing(state, msg = "Processing...") {
+        statusEl.innerText = state ? msg : "";
+        document.body.classList.toggle("processing", state);
+      }
+
+      agreeCheckbox.addEventListener("change", () => {
+        sendOtpBtn.disabled = !agreeCheckbox.checked;
+        if(agreeCheckbox.checked) {
+          sendOtpBtn.classList.replace("bg-slate-300", "bg-slate-900");
+          sendOtpBtn.style.cursor = "pointer";
+        } else {
+          sendOtpBtn.classList.replace("bg-slate-900", "bg-slate-300");
+          sendOtpBtn.style.cursor = "not-allowed";
+        }
+      });
+
+      window.goToLogin = function() {
+        google.script.run.withSuccessHandler(html => {
+          document.open(); document.write(html); document.close();
+        }).loadPage('Login');
+      };
+
+      window.sendOtp = function() {
+        const email = document.getElementById("email").value.trim();
+        if (!email) {
+          statusEl.innerText = "Error: Input Required";
+          return;
+        }
+
+        setProcessing(true, "QUEUING OTP TRANSMISSION...");
+        sendOtpBtn.disabled = true;
+
+        google.script.run.withSuccessHandler(res => {
+          setProcessing(false);
+          statusEl.innerText = res.msg;
+          if (res.success) {
+            document.getElementById("otpSection").style.display = "block";
+            document.getElementById("initialStep").style.opacity = "0.4";
+            document.getElementById("email").disabled = true;
+            document.getElementById("agreeCheckbox").disabled = true;
+            startResendTimer();
+          } else {
+            sendOtpBtn.disabled = false;
+          }
+        }).sendOtp(email);
+      };
+
+      window.verifyOtp = function() {
+        const email = document.getElementById("email").value.trim();
+        const otp = document.getElementById("otp").value.trim();
+        if (!otp) {
+          statusEl.innerText = "Code Required";
+          return;
+        }
+
+        setProcessing(true, "AUTHENTICATING...");
+
+        google.script.run.withSuccessHandler(res => {
+          setProcessing(false);
+          statusEl.innerText = res.msg;
+          if (res.success) {
+            localStorage.setItem("verifiedWorkerEmail", email);
+            statusEl.className = "text-center text-[10px] font-black min-h-[20px] text-blue-700 uppercase tracking-widest";
+            statusEl.innerText = "VALIDATED. REDIRECTING...";
+
+            setTimeout(() => {
+              google.script.run.withSuccessHandler(html => {
+                document.open(); document.write(html); document.close();
+              }).loadPage('Registration');
+            }, 1500);
+          }
+        }).verifyOtp(email, otp);
+      };
+
+      window.resendOtp = function() {
+        const email = document.getElementById("email").value.trim();
+        setProcessing(true, "RETRANSMITTING...");
+
+        google.script.run.withSuccessHandler(res => {
+          setProcessing(false);
+          statusEl.innerText = res.msg;
+          if (res.success) startResendTimer();
+        }).sendOtp(email);
+      };
+
+      function startResendTimer() {
+        let countdown = 90;
+        const resendBtn = document.getElementById("resendBtn");
+        resendBtn.disabled = true;
+        clearInterval(resendTimer);
+
+        resendTimer = setInterval(() => {
+          countdown--;
+          resendBtn.innerText = `Retransmission available in ${countdown}s`;
+          if (countdown <= 0) {
+            clearInterval(resendTimer);
+            resendBtn.innerText = "Request New Code";
+            resendBtn.disabled = false;
+            resendBtn.className = "w-full py-2.5 bg-emerald-50 text-emerald-700 font-black rounded border border-emerald-200 text-[9px] uppercase tracking-widest transition-all";
+          }
+        }, 1000);
+      }
+    })();
+	</script>
+</body>
+
+</html>
