@@ -219,3 +219,4 @@ function saveFeedback(ticketID, rating, feedbackText) {
     return "Error: " + e.toString();
   }
 }
+
