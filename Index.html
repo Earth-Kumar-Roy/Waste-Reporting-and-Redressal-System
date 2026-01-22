@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<base target="_top">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Waste Reporting and Redressal System | Kolkata Municipality</title>
+	<script src="https://cdn.tailwindcss.com"></script>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
+
+		body {
+			font-family: 'Roboto', sans-serif;
+		}
+
+		.gov-strip {
+			background: linear-gradient(to right, #FF9933 33.33%, #FFFFFF 33.33%, #FFFFFF 66.66%, #128807 66.66%);
+			height: 5px;
+		}
+
+		.main-nav {
+			background: #003366;
+		}
+
+		.feature-card {
+			border-top: 4px solid #059669;
+			transition: all 0.3s ease;
+		}
+
+		.feature-card:hover {
+			transform: translateY(-5px);
+			box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+		}
+
+		.region-tag {
+			background: #ffffff;
+			border: 1px solid #cbd5e1;
+			padding: 6px 14px;
+			font-size: 11px;
+			font-weight: 700;
+			color: #334155;
+			text-transform: uppercase;
+			display: inline-flex;
+			align-items: center;
+		}
+
+		.bank-icon-box {
+			height: 70px;
+			width: 70px;
+			background: #003366;
+			border-radius: 12px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			color: white;
+			box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.2);
+		}
+
+		.stats-pill {
+			background: rgba(255, 255, 255, 0.1);
+			border: 1px solid rgba(255, 255, 255, 0.2);
+			padding: 4px 12px;
+			border-radius: 9999px;
+			display: flex;
+			align-items: center;
+			gap: 8px;
+		}
+	</style>
+</head>
+
+<body class="bg-slate-50 min-h-screen flex flex-col text-slate-900">
+
+	<div class="gov-strip w-full"></div>
+
+	<div class="bg-slate-100 px-4 py-1.5 border-b border-slate-200">
+		<div
+			class="max-w-7xl mx-auto flex justify-between items-center text-[10px] font-bold text-slate-500 uppercase tracking-wider">
+			<div class="flex items-center gap-4">
+				<span>Official Municipal Grievance Redressal Registry</span>
+				<span class="text-emerald-700 italic border-l pl-4 border-slate-300">
+          <i class="fas fa-hand-sparkles mr-1"></i> Initiative to keep Kolkata Clean
+        </span>
+			</div>
+			<button onclick="loadPage('AdminLogin')" class="hover:text-emerald-700 flex items-center gap-1 transition-all uppercase tracking-widest">
+        <i class="fas fa-user-shield"></i> Internal Admin Login
+      </button>
+		</div>
+	</div>
+
+	<header class="bg-white border-b border-slate-200">
+		<div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+			<div class="flex items-center gap-5">
+				<div class="bank-icon-box">
+					<i class="fas fa-university text-3xl"></i>
+				</div>
+				<div class="border-l-2 border-slate-200 pl-5">
+					<h1 class="text-2xl md:text-3xl font-black text-[#003366] leading-none uppercase tracking-tighter">
+						Waste Reporting and Redressal System</h1>
+					<p class="text-[12px] text-emerald-700 font-extrabold tracking-[0.15em] uppercase mt-1">Kolkata
+						Municipality Registry</p>
+				</div>
+			</div>
+
+			<div class="hidden lg:flex items-center gap-6">
+				<div class="text-center px-4 py-2 border-2 border-emerald-600 rounded">
+					<p class="text-[10px] font-black text-emerald-700 uppercase leading-none">Clean City</p>
+					<p class="text-sm font-black text-slate-800 uppercase">Green City</p>
+				</div>
+			</div>
+		</div>
+	</header>
+
+	<div class="main-nav text-white py-2 px-4 border-b border-white/10">
+		<div
+			class="max-w-7xl mx-auto flex flex-wrap justify-center md:justify-end gap-6 text-[10px] font-black uppercase tracking-widest">
+			<div class="flex items-center gap-2"><i class="fas fa-file-alt text-emerald-400"></i> Reported:
+				<span id="topReported">--</span></div>
+			<div class="flex items-center gap-2"><i class="fas fa-check-circle text-emerald-400"></i> Cleared:
+				<span id="topCleared">--</span></div>
+			<div class="flex items-center gap-2"><i class="fas fa-clock text-amber-400"></i> Pending:
+				<span id="topPending">--</span></div>
+		</div>
+	</div>
+
+	<nav class="main-nav text-white shadow-md sticky top-0 z-50">
+		<div class="max-w-7xl mx-auto flex flex-wrap text-[11px] font-bold uppercase">
+			<button onclick="loadPage('Index')" class="px-6 py-4 bg-[#004080] border-r border-[#0052a3] hover:bg-[#0052a3] transition flex items-center gap-2">
+        <i class="fas fa-home"></i> Home
+      </button>
+
+			<button onclick="scrollToSection('regions')" class="px-6 py-4 border-r border-[#0052a3] hover:bg-[#004080] transition flex items-center gap-2 uppercase">
+        <i class="fas fa-map-marked-alt"></i> Operational Regions
+      </button>
+			<button onclick="scrollToSection('procedure')" class="px-6 py-4 border-r border-[#0052a3] hover:bg-[#004080] transition flex items-center gap-2 uppercase">
+        <i class="fas fa-list-ol"></i> Procedure
+      </button>
+
+			<button onclick="loadPage('RaiseIssue')" class="px-6 py-4 border-r border-[#0052a3] hover:bg-emerald-600 transition bg-emerald-700 text-white">
+        <i class="fas fa-bullhorn mr-1"></i> Lodge Grievance
+      </button>
+			<button onclick="loadPage('CheckStatus')" class="px-6 py-4 border-r border-[#0052a3] hover:bg-[#004080] transition">
+        <i class="fas fa-search mr-1"></i> Track Status
+      </button>
+			<button onclick="loadPage('Login')" class="px-6 py-4 ml-auto bg-slate-800 hover:bg-slate-700 transition flex items-center gap-2">
+        <i class="fas fa-tools"></i> Worker's Portal
+      </button>
+		</div>
+	</nav>
+
+	<main class="bg-white border-b border-slate-200">
+		<div class="max-w-7xl mx-auto px-4 py-16 md:py-24 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+			<div class="space-y-6 text-center lg:text-left">
+				<h2 class="text-5xl md:text-7xl font-black text-slate-800 leading-[0.9] uppercase tracking-tighter">
+					Clean Cities Start <br><span class="text-[#003366]">With You</span>
+				</h2>
+				<div class="h-2 w-24 bg-emerald-600 mx-auto lg:mx-0"></div>
+				<p class="text-slate-600 text-sm md:text-lg font-medium leading-relaxed max-w-xl">
+					A digital initiative by Kolkata Municipality to maintain sanitation standards. Report waste issues
+					instantly, track cleanup progress in real-time, and contribute to a healthier urban environment.
+				</p>
+				<div class="flex gap-4 pt-4 justify-center lg:justify-start">
+					<button onclick="loadPage('RaiseIssue')" class="px-10 py-4 bg-emerald-800 hover:bg-emerald-900 text-white font-bold rounded-sm shadow-lg transition-all uppercase tracking-widest text-xs active:scale-95">
+            Lodge Grievance (Citizen)
+          </button>
+				</div>
+			</div>
+
+			<div class="bg-slate-50 p-8 border border-slate-200 shadow-sm rounded-sm">
+				<h3 class="text-xs font-black text-emerald-800 uppercase tracking-[0.3em] mb-4 flex items-center gap-2">
+					<i class="fas fa-hand-holding-heart"></i> Why Cleanliness Matters?
+				</h3>
+				<p class="text-sm text-slate-600 font-medium leading-relaxed mb-6">
+					Maintaining a clean city is vital for <strong>public health</strong>, prevention of vector-borne
+					diseases (<strong>Dengue, Malaria</strong>), and the overall aesthetic value of our heritage city. A
+					clean environment reduces pollution and fosters community pride.
+				</p>
+				<ul class="space-y-2">
+					<li class="flex items-center gap-3 text-[11px] font-bold text-slate-700 uppercase">
+						<i class="fas fa-check-circle text-emerald-600"></i> Disease Prevention</li>
+					<li class="flex items-center gap-3 text-[11px] font-bold text-slate-700 uppercase">
+						<i class="fas fa-check-circle text-emerald-600"></i> Heritage Preservation</li>
+					<li class="flex items-center gap-3 text-[11px] font-bold text-slate-700 uppercase">
+						<i class="fas fa-check-circle text-emerald-600"></i> Community Hygiene</li>
+				</ul>
+			</div>
+		</div>
+	</main>
+
+	<section class="py-12 bg-slate-900 text-white">
+		<div class="max-w-7xl mx-auto px-4">
+			<div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+				<div class="space-y-1 border-r border-white/10 last:border-0">
+					<p class="text-3xl font-black text-emerald-400" id="statReported">--</p>
+					<p class="text-[10px] font-bold uppercase tracking-widest text-slate-400">Total Reported</p>
+				</div>
+				<div class="space-y-1 border-r border-white/10 last:border-0">
+					<p class="text-3xl font-black text-emerald-400" id="statCleared">--</p>
+					<p class="text-[10px] font-bold uppercase tracking-widest text-slate-400">Issues Resolved</p>
+				</div>
+				<div class="space-y-1 border-r border-white/10 last:border-0">
+					<p class="text-3xl font-black text-amber-400" id="statPending">--</p>
+					<p class="text-[10px] font-bold uppercase tracking-widest text-slate-400">Pending Action</p>
+				</div>
+				<div class="space-y-1">
+					<p class="text-3xl font-black text-sky-400" id="statAvgTime">--</p>
+					<p class="text-[10px] font-bold uppercase tracking-widest text-slate-400">Avg Res. Time (Hrs)</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="py-20 bg-slate-100 border-y border-slate-200">
+		<div class="max-w-7xl mx-auto px-4">
+			<div class="text-center mb-16">
+				<h3 class="text-xs font-black text-emerald-700 uppercase tracking-[0.4em] mb-2">Core Technology</h3>
+				<h2 class="text-3xl font-black text-slate-800 uppercase tracking-tighter">Portal Highlights</h2>
+			</div>
+
+			<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+				<div class="feature-card bg-white p-8 shadow-sm">
+					<i class="fas fa-robot text-3xl text-emerald-700 mb-5"></i>
+					<h4 class="text-sm font-black uppercase mb-3 tracking-widest">AI Integration</h4>
+					<p class="text-xs text-slate-500 font-medium leading-relaxed">Integrated AI modules detect garbage
+						in uploaded photos instantly. This helps to remove false statements and ensure valid reports.
+					</p>
+				</div>
+				<div class="feature-card bg-white p-8 shadow-sm">
+					<i class="fas fa-map-marked text-3xl text-emerald-700 mb-5"></i>
+					<h4 class="text-sm font-black uppercase mb-3 tracking-widest">Regionwise Routing</h4>
+					<p class="text-xs text-slate-500 font-medium leading-relaxed">Complaints are automatically routed to
+						specific municipal zones based on the precise geo-location of the reported site.</p>
+				</div>
+				<div class="feature-card bg-white p-8 shadow-sm">
+					<i class="fas fa-user-shield text-3xl text-emerald-700 mb-5"></i>
+					<h4 class="text-sm font-black uppercase mb-3 tracking-widest">Worker Accountability</h4>
+					<p class="text-xs text-slate-500 font-medium leading-relaxed">Workers first register, and only after
+						approval from Admin can they perform assigned work with verified proof.</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section id="regions" class="bg-white py-24 scroll-mt-20">
+		<div class="max-w-7xl mx-auto px-4 text-center">
+			<h3 class="text-xs font-black text-slate-400 uppercase tracking-[0.4em] mb-4 italic">Service Coverage
+				Registry</h3>
+			<h2 class="text-2xl font-black text-slate-800 uppercase tracking-tighter mb-10">Supporting Kolkata's Key
+				Zones</h2>
+			<div class="flex flex-wrap justify-center gap-4">
+				<div class="region-tag"><i class="fas fa-circle text-[6px] text-red-500 mr-2"></i> Esplanade</div>
+				<div class="region-tag"><i class="fas fa-circle text-[6px] text-red-500 mr-2"></i> Sealdah</div>
+				<div class="region-tag"><i class="fas fa-circle text-[6px] text-red-500 mr-2"></i> Howrah</div>
+				<div class="region-tag"><i class="fas fa-circle text-[6px] text-red-500 mr-2"></i> Bidhannagar</div>
+				<div class="region-tag"><i class="fas fa-circle text-[6px] text-red-500 mr-2"></i> Baranagar</div>
+				<div class="region-tag"><i class="fas fa-circle text-[6px] text-red-500 mr-2"></i> DumDum</div>
+				<div class="region-tag"><i class="fas fa-circle text-[6px] text-red-500 mr-2"></i> Tollygunge</div>
+				<div class="region-tag"><i class="fas fa-circle text-[6px] text-red-500 mr-2"></i> Khidirpur</div>
+				<div class="region-tag"><i class="fas fa-circle text-[6px] text-red-500 mr-2"></i> Gobra</div>
+				<div class="region-tag"><i class="fas fa-circle text-[6px] text-red-500 mr-2"></i> NewTown</div>
+			</div>
+		</div>
+	</section>
+
+	<section id="procedure" class="bg-slate-900 text-white py-24 scroll-mt-20">
+		<div class="max-w-7xl mx-auto px-4">
+			<div class="text-center mb-16">
+				<h3 class="text-xs font-black text-emerald-500 uppercase tracking-[0.4em] mb-2">Operational Protocol
+				</h3>
+				<h2 class="text-3xl font-black uppercase tracking-tighter">How This App Works</h2>
+			</div>
+
+			<div class="grid grid-cols-1 md:grid-cols-3 gap-0 border border-slate-700">
+				<div class="p-10 border-r border-slate-700 hover:bg-slate-800 transition">
+					<div class="text-5xl font-black text-slate-700 mb-6 italic">01</div>
+					<h4 class="text-sm font-black uppercase mb-4 text-emerald-400">Report</h4>
+					<p class="text-xs text-slate-300 font-medium leading-relaxed">
+						Spot garbage, provide your details, location, and a supportive image.
+						<strong>AI integration</strong> instantly validates the garbage content.
+					</p>
+				</div>
+				<div class="p-10 border-r border-slate-700 hover:bg-slate-800 transition">
+					<div class="text-5xl font-black text-slate-700 mb-6 italic">02</div>
+					<h4 class="text-sm font-black uppercase mb-4 text-emerald-400">Track</h4>
+					<p class="text-xs text-slate-300 font-medium leading-relaxed">
+						A unique ticket is generated. Citizens can monitor the status of working and provide feedback
+						post-resolution through the registry.
+					</p>
+				</div>
+				<div class="p-10 hover:bg-slate-800 transition">
+					<div class="text-5xl font-black text-slate-700 mb-6 italic">03</div>
+					<h4 class="text-sm font-black uppercase mb-4 text-emerald-400">Resolve</h4>
+					<p class="text-xs text-slate-300 font-medium leading-relaxed">
+						Workers receive exact coordinates. Once cleaned, you receive an email notification with "After"
+						photos and worker details.
+					</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<footer class="bg-white p-12 border-t border-slate-200">
+		<div
+			class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-10 text-center md:text-left">
+			<div class="text-[10px] text-slate-400 font-bold uppercase tracking-widest leading-loose">
+				Designed & Hosted by Earth Kumar Roy<br>
+				<span class="text-slate-500">Government College of Engineering and Leather Technology</span>
+			</div>
+			<div class="flex gap-10 grayscale opacity-40">
+				<i class="fas fa-university text-3xl"></i>
+				<i class="fas fa-shield-alt text-3xl"></i>
+				<i class="fas fa-recycle text-3xl text-emerald-600 opacity-100 grayscale-0"></i>
+			</div>
+		</div>
+		<div
+			class="mt-12 text-center border-t border-slate-100 pt-6 text-[10px] text-slate-400 font-black uppercase tracking-[0.5em]">
+			© 2026 EKR | Kolkata Municipality
+		</div>
+	</footer>
+
+	<script>
+		window.onload = function() {
+      fetchLiveStats();
+    };
+
+    function fetchLiveStats() {
+      google.script.run.withSuccessHandler(stats => {
+        // Update Top Bar
+        document.getElementById('topReported').innerText = stats.reported;
+        document.getElementById('topCleared').innerText = stats.cleared;
+        document.getElementById('topPending').innerText = stats.pending;
+        
+        // Update Stats Section
+        document.getElementById('statReported').innerText = stats.reported;
+        document.getElementById('statCleared').innerText = stats.cleared;
+        document.getElementById('statPending').innerText = stats.pending;
+        document.getElementById('statAvgTime').innerText = stats.avgTime;
+      }).getDashboardStats();
+    }
+
+    function loadPage(page) {
+      google.script.run.withSuccessHandler(h => {
+        document.open(); document.write(h); document.close();
+      }).loadPage(page);
+    }
+
+    function scrollToSection(id) {
+      const target = document.getElementById(id);
+      if (target) {
+        const navHeight = 65; 
+        const bodyRect = document.body.getBoundingClientRect().top;
+        const targetRect = target.getBoundingClientRect().top;
+        const targetPosition = targetRect - bodyRect - navHeight;
+
+        window.scrollTo({
+          top: targetPosition,
+          behavior: 'smooth'
+        });
+      }
+    }
+	</script>
+</body>
+
+</html>
