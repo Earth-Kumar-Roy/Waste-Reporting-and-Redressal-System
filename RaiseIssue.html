@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<base target="_top">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Public Grievance Redressal | Government of West Bengal</title>
+	<script src="https://cdn.tailwindcss.com"></script>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+
+		body {
+			font-family: 'Inter', sans-serif;
+		}
+
+		.gov-strip {
+			background: linear-gradient(to right, #FF9933 33.33%, #FFFFFF 33.33%, #FFFFFF 66.66%, #128807 66.66%);
+			height: 4px;
+		}
+	</style>
+</head>
+
+<body class="bg-slate-50 min-h-screen text-slate-900">
+
+	<div class="gov-strip w-full"></div>
+
+	<header class="bg-white border-b border-slate-200 shadow-sm">
+		<div class="max-w-6xl mx-auto px-4 py-5 flex items-center justify-between">
+			<div class="flex items-center gap-5">
+				<div class="bg-emerald-800 text-white p-4 rounded-lg shadow-inner">
+					<i class="fas fa-monument text-3xl"></i>
+				</div>
+				<div>
+					<h1 class="text-2xl font-black text-slate-800 leading-none uppercase tracking-tighter">Waste
+						Reporting & Redressal System</h1>
+					<p class="text-[11px] text-emerald-700 font-extrabold tracking-[0.2em] uppercase mt-1">Initiate to
+						Keep Kolkata Clean</p>
+				</div>
+			</div>
+			<div class="flex items-center gap-2 text-slate-400">
+				<i class="fas fa-fingerprint text-3xl opacity-40"></i>
+				<div class="text-[9px] font-bold uppercase leading-none">Digital<br>Initiative</div>
+				</div>
+			</div>
+	</header>
+
+	<nav class="bg-slate-900 text-white sticky top-0 z-50 shadow-md">
+		<div class="max-w-6xl mx-auto flex">
+			<button onclick="loadPage('Index')" class="px-8 py-4 text-xs font-black hover:bg-slate-800 border-r border-slate-800 flex items-center gap-2 transition-all">
+        <i class="fas fa-home text-emerald-400"></i> HOME
+      </button>
+			<button onclick="loadPage('Index')" class="px-8 py-4 text-xs font-black hover:bg-slate-800 border-r border-slate-800 bg-emerald-800 flex items-center gap-2 transition-all">
+        <i class="fas fa-plus-circle"></i> NEW COMPLAINT
+      </button>
+			<button onclick="loadPage('CheckStatus')" class="px-8 py-4 text-xs font-black hover:bg-slate-800 border-r border-slate-800 flex items-center gap-2 transition-all">
+        <i class="fas fa-tasks"></i> TRACK GRIEVANCE
+      </button>
+		</div>
+	</nav>
+
+	<main class="max-w-4xl mx-auto my-10 px-4">
+		<div class="bg-white border border-slate-200 shadow-xl rounded-lg overflow-hidden">
+
+			<div
+				class="bg-blue-900 text-white px-8 py-3 text-[10px] font-bold uppercase tracking-widest flex items-center gap-2">
+				<i class="fas fa-shield-alt"></i> Official Grievance Filing Form
+			</div>
+
+			<div class="p-8 md:p-12 space-y-10">
+
+				<section class="space-y-5">
+					<h3
+						class="text-xs font-black text-slate-400 uppercase border-b border-slate-100 pb-3 tracking-widest flex items-center gap-3">
+						<span class="bg-emerald-100 text-emerald-800 px-2 py-1 rounded text-[10px]">PART A</span>
+						PERSONAL IDENTIFICATION
+					</h3>
+					<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+						<div class="space-y-2">
+							<label class="text-[10px] font-black text-slate-500 uppercase ml-1">Full Name *</label>
+							<input type="text" id="name" placeholder="As per Govt ID" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-md focus:ring-2 focus:ring-emerald-600 outline-none text-sm font-medium transition-all">
+            </div>
+							<div class="space-y-2">
+								<label class="text-[10px] font-black text-slate-500 uppercase ml-1">Mobile Number *</label>
+								<input type="tel" id="mobile" placeholder="10-digit mobile" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-md focus:ring-2 focus:ring-emerald-600 outline-none text-sm font-medium transition-all">
+            </div>
+							</div>
+							<div class="space-y-2">
+								<label class="text-[10px] font-black text-slate-500 uppercase ml-1">Email Address *</label>
+								<input type="email" id="email" placeholder="official@domain.com" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-md focus:ring-2 focus:ring-emerald-600 outline-none text-sm font-medium transition-all">
+          </div>
+				</section>
+
+				<section class="space-y-5">
+					<h3
+						class="text-xs font-black text-slate-400 uppercase border-b border-slate-100 pb-3 tracking-widest flex items-center gap-3">
+						<span class="bg-emerald-100 text-emerald-800 px-2 py-1 rounded text-[10px]">PART B</span>
+						GEOSPATIAL DATA
+					</h3>
+
+					<div id="locationWrapper" class="bg-slate-50 border border-slate-200 p-5 rounded-lg">
+						<div class="flex items-center justify-between mb-5">
+							<div
+								class="flex items-center gap-3 text-slate-800 font-black text-[11px] uppercase tracking-tighter">
+								<i class="fas fa-map-marked-alt text-red-600 animate-pulse"></i>
+								<span id="locLabel">Accessing Satellite Data...</span>
+							</div>
+							<div id="locSpinner" class="animate-spin text-blue-700 text-xs">
+								<i class="fas fa-sync-alt"></i>
+							</div>
+						</div>
+
+						<div id="gpsInputs" class="grid grid-cols-2 gap-4">
+							<div class="space-y-1">
+								<span class="text-[9px] font-bold text-slate-400 ml-1">LATITUDE</span>
+								<input type="text" id="latitude" readonly class="w-full p-3 bg-white border border-slate-200 rounded text-xs font-mono text-slate-600 cursor-not-allowed">
+              </div>
+								<div class="space-y-1">
+									<span class="text-[9px] font-bold text-slate-400 ml-1">LONGITUDE</span>
+									<input type="text" id="longitude" readonly class="w-full p-3 bg-white border border-slate-200 rounded text-xs font-mono text-slate-600 cursor-not-allowed">
+              </div>
+								</div>
+
+								<div id="manualInputs" class="hidden space-y-3 pt-2">
+									<input type="text" id="address1" placeholder="Block / Sector / Ward No." class="w-full p-3 border border-orange-200 rounded text-xs focus:ring-1 focus:ring-orange-500 outline-none">
+									<input type="text" id="address2" placeholder="Nearest Landmark" class="w-full p-3 border border-orange-200 rounded text-xs focus:ring-1 focus:ring-orange-500 outline-none">
+            </div>
+								</div>
+
+								<div class="space-y-2">
+									<label class="text-[10px] font-black text-slate-500 uppercase ml-1">Select Authority *</label>
+									<select id="region" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-md text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-emerald-600">
+              <option value="">-- Choose Municipal Authority --</option>
+              <option>Esplanade</option>
+              <option>Sealdah</option>
+              <option>Howrah</option>
+              <option>Bidhannagar</option>
+              <option>Baranagar</option>
+              <option>Dumdum</option>
+              <option>Tollygunge</option>
+              <option>Khidirpur</option>
+              <option>Newtown</option>
+              <option>Gobra</option>
+            </select>
+								</div>
+				</section>
+
+				<section class="space-y-5">
+					<h3
+						class="text-xs font-black text-slate-400 uppercase border-b border-slate-100 pb-3 tracking-widest flex items-center gap-3">
+						<span class="bg-emerald-100 text-emerald-800 px-2 py-1 rounded text-[10px]">PART C</span>
+						COMPLAINT VALIDATION
+					</h3>
+
+					<div class="space-y-2">
+						<label class="text-[10px] font-black text-slate-500 uppercase ml-1">Description of Issue *</label>
+						<textarea id="description" maxlength="300" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-md text-sm h-32 focus:ring-2 focus:ring-emerald-600 outline-none resize-none font-medium"></textarea>
+						<div class="text-[9px] font-black text-slate-400 text-right uppercase">
+							<span id="charUsed" class="text-emerald-600">0</span> / 300 Characters Allowed
+						</div>
+					</div>
+
+					<div class="flex flex-col gap-3">
+						<label class="relative flex flex-col items-center justify-center w-full h-40 border-2 border-slate-200 border-dashed rounded-lg bg-slate-50 cursor-pointer hover:bg-emerald-50/50 transition-all group overflow-hidden">
+              <div class="flex flex-col items-center justify-center text-center p-6">
+                <i class="fas fa-file-upload text-slate-300 group-hover:text-emerald-600 text-3xl mb-3 transition-colors"></i>
+                <p id="aiHint" class="text-[11px] text-slate-600 font-black uppercase tracking-widest">Upload Field Evidence</p>
+                <p class="text-[9px] text-slate-400 mt-1 font-bold">IMAGE VALIDATED BY AI MODULE</p>
+              </div>
+              <input type="file" id="image" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer" disabled>
+            </label>
+						<div id="fileName"
+							class="text-center text-[10px] text-slate-500 font-black italic uppercase tracking-widest">
+							Registry: No file attached
+						</div>
+					</div>
+				</section>
+
+				<div class="pt-6 border-t border-slate-100">
+					<button onclick="submitIssue()" class="submit-btn w-full py-5 bg-slate-900 hover:bg-emerald-900 text-white font-black rounded shadow-2xl active:scale-[0.99] transition-all uppercase tracking-[0.3em] text-xs">
+            Submit To Official Registry
+          </button>
+					<div id="status"
+						class="mt-5 text-center text-[10px] font-black min-h-[16px] uppercase tracking-widest transition-colors">
+					</div>
+				</div>
+			</div>
+
+			<footer class="bg-slate-100 p-8 border-t border-slate-200 text-center">
+				<p class="text-[9px] text-slate-400 font-black uppercase tracking-[0.4em]">© 2026 EKR | Kolkata
+					Municipality </p>
+			</footer>
+		</div>
+	</main>
+
+	<img id="aiCanvas" style="display:none;">
+
+	<script type="module">
+		import { ImageClassifier, FilesetResolver } from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.3";
+
+    (function () {
+      "use strict";
+
+      let locationFetched = false;
+      let submitInterval = null;
+      let classifier;
+
+      async function initAI() {
+        try {
+          const vision = await FilesetResolver.forVisionTasks("https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.3/wasm");
+          classifier = await ImageClassifier.createFromOptions(vision, {
+            baseOptions: { modelAssetPath: "https://storage.googleapis.com/mediapipe-models/image_classifier/efficientnet_lite0/float32/1/efficientnet_lite0.tflite" },
+            maxResults: 3
+          });
+          document.getElementById("image").disabled = false;
+          document.getElementById("aiHint").innerText = "Upload Site Photo (AI Ready)";
+        } catch (e) {
+          document.getElementById("image").disabled = false;
+        }
+      }
+
+      initAI();
+      initLocationRequest();
+
+      window.onload = function () {
+        const fileInput = document.getElementById("image");
+        const fileName = document.getElementById("fileName");
+        const status = document.getElementById("status");
+        const aiCanvas = document.getElementById("aiCanvas");
+
+        fileInput.addEventListener("change", function () {
+          const file = this.files[0];
+          if (!file) return;
+          if (file.size > 3 * 1024 * 1024) {
+            alert("Official limit: 3MB.");
+            this.value = ""; return;
+          }
+
+          const reader = new FileReader();
+          reader.onload = (ev) => {
+            aiCanvas.src = ev.target.result;
+            status.innerText = "Scanning evidence content...";
+            status.style.color = "#0369a1";
+
+            aiCanvas.onload = async () => {
+              const res = await classifier.classify(aiCanvas);
+              const labels = res.classifications[0].categories.map(x => x.categoryName.toLowerCase());
+              const isG = labels.some(l => /bottle|bag|can|waste|trash|plastic|wrapper|debris|junk|dirt|litter/.test(l));
+
+              if (isG) {
+                fileName.textContent = "VERIFIED: " + file.name;
+                fileName.className = "text-center text-[10px] text-emerald-700 font-black uppercase italic";
+                status.innerText = "Image Analysis Complete: Valid";
+                status.style.color = "#15803d";
+              } else {
+                fileInput.value = ""; 
+                fileName.textContent = "Registry Rejected: No waste detected";
+                fileName.className = "text-center text-[10px] text-red-600 font-black uppercase italic";
+                status.innerText = "Error: Evidence does not match reporting category";
+                status.style.color = "#b91c1c";
+              }
+            };
+          };
+          reader.readAsDataURL(file);
+        });
+
+        document.getElementById("description").addEventListener("input", function () {
+          document.getElementById("charUsed").innerText = this.value.length;
+        });
+      };
+
+      function initLocationRequest() {
+        if (!navigator.geolocation) { switchToManual(); return; }
+        const locTimer = setTimeout(() => { if (!locationFetched) switchToManual(); }, 12000);
+        navigator.geolocation.getCurrentPosition(
+          pos => {
+            locationFetched = true;
+            clearTimeout(locTimer);
+            document.getElementById("latitude").value = pos.coords.latitude;
+            document.getElementById("longitude").value = pos.coords.longitude;
+            document.getElementById("locSpinner").classList.add("hidden");
+            document.getElementById("locLabel").innerText = "Satellite Positioning Confirmed";
+          },
+          err => { locationFetched = false; clearTimeout(locTimer); switchToManual(); },
+          { enableHighAccuracy: true, timeout: 8000, maximumAge: 0 }
+        );
+      }
+
+      function switchToManual() {
+        const gpsInputs = document.getElementById("gpsInputs");
+        const manualInputs = document.getElementById("manualInputs");
+        const locLabel = document.getElementById("locLabel");
+        const locSpinner = document.getElementById("locSpinner");
+        const wrapper = document.getElementById("locationWrapper");
+        if (gpsInputs) gpsInputs.classList.add("hidden");
+        if (manualInputs) manualInputs.classList.remove("hidden");
+        if (locSpinner) locSpinner.classList.add("hidden");
+        if (locLabel) locLabel.innerText = "GPS Signal Lost: Manual Entry Required";
+        if (wrapper) {
+          wrapper.classList.replace("bg-slate-50", "bg-orange-50");
+          wrapper.classList.add("border-orange-200");
+        }
+      }
+
+      window.submitIssue = function () {
+        const submitBtn = document.querySelector(".submit-btn");
+        const statusEl = document.getElementById("status");
+        const name = document.getElementById("name").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const mobile = document.getElementById("mobile").value.trim();
+        const region = document.getElementById("region").value;
+        const description = document.getElementById("description").value.trim();
+        const imageFile = document.getElementById("image").files[0];
+
+        let latVal, longVal;
+        if (locationFetched) {
+          latVal = document.getElementById("latitude").value;
+          longVal = document.getElementById("longitude").value;
+        } else {
+          latVal = document.getElementById("address1").value.trim();
+          longVal = document.getElementById("address2").value.trim();
+        }
+
+        if (!name || !email || !mobile || !region || !latVal || !longVal || !description || !imageFile) {
+          statusEl.innerText = "Error: All fields and validated photo are required";
+          statusEl.style.color = "#b91c1c";
+          return;
+        }
+
+        submitBtn.disabled = true;
+        statusEl.style.color = "#0369a1";
+
+        // Animated dot-dot-dot logic
+        let dots = 0;
+        submitInterval = setInterval(() => {
+          dots = (dots + 1) % 4;
+          submitBtn.innerText = "Transmitting to Government Servers" + ".".repeat(dots);
+        }, 400);
+
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          google.script.run
+            .withSuccessHandler(res => {
+              clearInterval(submitInterval);
+              statusEl.innerText = "Filing Success: " + res.msg;
+              submitBtn.innerText = "COMPLAINT REGISTERED";
+              submitBtn.classList.replace("bg-slate-900", "bg-slate-500");
+            })
+            .withFailureHandler(err => {
+              clearInterval(submitInterval);
+              statusEl.innerText = "Portal Error: " + err.message;
+              submitBtn.disabled = false;
+              submitBtn.innerText = "RETRY TRANSMISSION";
+            })
+            .raiseIssue({
+              name, email, mobile, region,
+              latitude: latVal,
+              longitude: longVal,
+              description,
+              image: e.target.result.split(",")[1],
+              imageName: imageFile.name
+            });
+        };
+        reader.readAsDataURL(imageFile);
+      }
+
+      window.loadPage = (p) => {
+        google.script.run.withSuccessHandler(h => {
+          document.open(); document.write(h); document.close();
+        }).loadPage(p);
+      };
+
+    })();
+  </script>
+</body>
+
+</html>
