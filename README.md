@@ -56,7 +56,7 @@ The **Waste Reporting & Redressal System** is a web-based solution designed to c
 ---
 
 ## 🌍 Demo Regions
-`Esplanade` • `Sealdah` • `Howrah` • `Bidhannagar` • `Dum Dum` • `New Town` • `Garia` (10 regions total)
+`Esplanade` • `Sealdah` • `Howrah` • `Bidhannagar` • `Dum Dum` • `New Town` • `Baranagar` (10 regions total)
 
 ---
 
