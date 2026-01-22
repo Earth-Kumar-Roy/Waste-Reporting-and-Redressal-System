@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<base target="_top">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Worker's Portal Login </title>
+	<script src="https://cdn.tailwindcss.com"></script>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+
+		body {
+			font-family: 'Inter', sans-serif;
+		}
+
+		.gov-strip {
+			background: linear-gradient(to right, #FF9933 33.33%, #FFFFFF 33.33%, #FFFFFF 66.66%, #128807 66.66%);
+			height: 4px;
+		}
+	</style>
+</head>
+
+<body class="bg-slate-100 min-h-screen flex flex-col">
+
+	<div class="gov-strip w-full"></div>
+
+	<header class="bg-white border-b border-slate-200 shadow-sm">
+		<div
+			class="max-w-6xl mx-auto px-4 py-1.5 flex justify-between items-center text-[10px] font-bold text-slate-500 uppercase tracking-tight">
+			<div class="flex items-center gap-2">
+				<i class="fas fa-landmark text-slate-400"></i>
+				<span>Official Worker Access Gateway</span>
+			</div>
+			<button onclick="loadPage('Index')" class="text-emerald-700 hover:text-emerald-900 flex items-center gap-1 transition-all">
+        <i class="fas fa-home"></i> Return to Main Home
+      </button>
+		</div>
+
+		<div class="max-w-6xl mx-auto px-4 py-5 flex items-center justify-between">
+			<div class="flex items-center gap-5">
+				<div class="bg-slate-800 text-white p-4 rounded-lg shadow-inner">
+					<i class="fas fa-user-shield text-3xl"></i>
+				</div>
+				<div>
+					<h1 class="text-xl font-black text-slate-800 leading-none uppercase tracking-tighter">Worker's
+						Portal Login</h1>
+					<p class="text-[10px] text-emerald-700 font-extrabold tracking-[0.2em] uppercase mt-1">Waste
+						Reporting & Redressal System</p>
+				</div>
+			</div>
+			<div class="hidden md:flex items-center gap-2 text-slate-300">
+				<i class="fas fa-fingerprint text-4xl opacity-20"></i>
+			</div>
+		</div>
+	</header>
+
+	<main class="flex-1 flex items-center justify-center p-4">
+		<div class="max-w-md w-full bg-white rounded-lg shadow-xl border border-slate-200 overflow-hidden">
+
+			<div class="bg-slate-900 px-8 py-4">
+				<div class="text-[10px] font-black text-emerald-400 uppercase tracking-widest text-center">
+					<i class="fas fa-lock mr-2"></i> Encrypted Personnel Authentication
+				</div>
+			</div>
+
+			<div class="p-8 space-y-6">
+				<div class="text-center space-y-1">
+					<h2 class="text-lg font-black text-slate-800 uppercase tracking-tight">Identity Verification</h2>
+					<p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest italic">Authorized Field
+						Personnel Only</p>
+				</div>
+
+				<div class="space-y-4">
+					<div class="relative group">
+						<span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 group-focus-within:text-emerald-600 transition-colors">
+              <i class="fas fa-id-card text-xs"></i>
+            </span>
+						<input id="username" type="text" placeholder="Worker ID / Registry Email" class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-md outline-none focus:ring-1 focus:ring-emerald-600 text-sm font-semibold transition-all">
+          </div>
+
+						<div class="relative group">
+							<span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 group-focus-within:text-emerald-600 transition-colors">
+              <i class="fas fa-key text-xs"></i>
+            </span>
+							<input id="password" type="password" placeholder="Access Password" class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-md outline-none focus:ring-1 focus:ring-emerald-600 text-sm font-semibold transition-all">
+          </div>
+						</div>
+
+						<div class="bg-slate-50 p-4 rounded-md border border-slate-200">
+							<label class="flex items-start gap-3 cursor-pointer group">
+            <input type="checkbox" id="agreeCheckbox" class="mt-1 w-4 h-4 text-emerald-800 border-slate-300 rounded focus:ring-emerald-600">
+            <span class="text-[10px] text-slate-500 font-medium leading-relaxed group-hover:text-slate-700 transition">
+              I certify that I am accessing this portal as an authorized worker of the Municipality. 
+              <a target="_blank" href="https://sites.google.com/view/ekr1/waste-reporting-redressal-system/user-agreement" class="text-emerald-700 font-black underline decoration-emerald-200">Personnel Usage Policy</a>
+            </span>
+          </label>
+						</div>
+
+						<button id="loginBtn" onclick="verify()" disabled class="w-full py-4 bg-slate-300 text-white text-xs font-black rounded shadow-lg uppercase tracking-[0.2em] transition-all">
+          Authorize & Sign In
+        </button>
+
+						<div id="msg" class="text-center text-[10px] font-black min-h-[16px] uppercase tracking-widest">
+						</div>
+
+						<div class="flex justify-between items-center pt-6 border-t border-slate-100">
+							<a onclick="loadPage('AuthenticateEmail')"
+								class="text-[10px] text-emerald-800 font-black uppercase tracking-widest cursor-pointer hover:underline">Register
+								New Personnel</a>
+							<a onclick="loadPage('ForgotPass')"
+								class="text-[10px] text-slate-400 font-bold uppercase tracking-widest cursor-pointer hover:text-slate-600">Reset
+								Password</a>
+						</div>
+					</div>
+
+					<footer class="bg-slate-100 p-6 text-center border-t border-slate-200">
+						<p class="text-[9px] text-slate-400 font-black uppercase tracking-[0.4em]">© 2026 EKR | Kolkata
+							Municipality</p>
+					</footer>
+				</div>
+	</main>
+
+	<script>
+		(function () {
+      "use strict";
+
+      const loginBtn = document.getElementById("loginBtn");
+      const agreeCheckbox = document.getElementById("agreeCheckbox");
+      const msg = document.getElementById("msg");
+      let processInterval = null;
+
+      agreeCheckbox.addEventListener("change", () => {
+        loginBtn.disabled = !agreeCheckbox.checked;
+        if (agreeCheckbox.checked) {
+          loginBtn.classList.replace("bg-slate-300", "bg-emerald-800");
+          loginBtn.style.cursor = "pointer";
+        } else {
+          loginBtn.classList.replace("bg-emerald-800", "bg-slate-300");
+          loginBtn.style.cursor = "not-allowed";
+        }
+      });
+
+      window.loadPage = function (pageName) {
+        google.script.run.withSuccessHandler(html => {
+          document.open();
+          document.write(html);
+          document.close();
+        }).loadPage(pageName);
+      };
+
+      window.verify = function () {
+        const user = document.getElementById("username").value.trim();
+        const pass = document.getElementById("password").value.trim();
+        msg.textContent = "";
+        msg.className = "text-center text-[10px] font-black min-h-[16px] uppercase tracking-widest";
+
+        if (!user || !pass) {
+          msg.textContent = "Error: Input required.";
+          msg.classList.add("text-red-600");
+          return;
+        }
+
+        loginBtn.disabled = true;
+        msg.classList.add("text-blue-700");
+
+        // Start dot animation
+        let dots = 0;
+        processInterval = setInterval(() => {
+          dots = (dots + 1) % 4;
+          msg.textContent = "AUTHENTICATING PERSONNEL" + ".".repeat(dots);
+        }, 400);
+
+        google.script.run
+          .withSuccessHandler(res => {
+            clearInterval(processInterval);
+            loginBtn.disabled = false;
+            if (res.valid === true) {
+              localStorage.setItem("LOGGEDINUSER", res.username);
+              localStorage.setItem("USER_REGION", res.region);
+              loadPage("WorkPending");
+              return;
+            }
+            if (res.status === "pending") {
+              msg.textContent = "Status: Approval Pending by Admin.";
+              msg.classList.replace("text-blue-700", "text-amber-600");
+              return;
+            }
+            if (res.status === "rejected") {
+              msg.textContent = "Your profile was rejected. Please contact support.";
+              msg.classList.replace("text-blue-700", "text-red-600");
+              return;
+            }
+            msg.textContent = "Authentication Failed: Access Denied.";
+            msg.classList.replace("text-blue-700", "text-red-600");
+          })
+          .withFailureHandler(err => {
+            clearInterval(processInterval);
+            loginBtn.disabled = false;
+            msg.textContent = "System Error: Connection Timeout.";
+            msg.classList.add("text-red-600");
+          })
+          .loginUser(user, pass);
+      };
+    })();
+	</script>
+</body>
+
+</html>
