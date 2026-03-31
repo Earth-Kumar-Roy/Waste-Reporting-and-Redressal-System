@@ -1,4 +1,4 @@
-function getPendingTasksByRegion(region) {
+function getPendingTasksByRegion(region) { 
   const sheet = SpreadsheetApp.openById(SHEET_ID).getSheetByName(ISSUE_SHEET);
   const data = sheet.getDataRange().getValues();
   const result = [];
