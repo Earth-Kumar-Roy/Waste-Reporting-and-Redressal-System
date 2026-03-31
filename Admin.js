@@ -3,7 +3,7 @@ function checkCode(inputCode) {
 
   const sheet = SpreadsheetApp
     .openById(SHEET_ID)
-    .getSheetByName(REG_SHEET);
+    .getSheetByName(REG_SHEET); 
 
   if (!sheet) throw new Error("Registration sheet not found");
 
